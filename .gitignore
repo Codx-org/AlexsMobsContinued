@@ -1,0 +1,23 @@
+build/
+.gradle/
+run/
+runs/
+versions/*/build/
+versions/*/.gradle/
+versions/*/run/
+*.log
+.idea/
+.DS_Store
+
+# Scratch dir for javap output when verifying vanilla signatures per node.
+scratch-javap/
+
+# Modrinth publishing: the PAT, and the last upload payload the script writes.
+scripts/.mr_token
+scripts/.mr_data.json
+# CurseForge publishing: the upload token, the numeric project id, and the local ledger
+# (CF has no endpoint that lists a project's files, so the ledger is what makes re-runs safe).
+scripts/.cf_token
+scripts/.cf_project_id
+scripts/.cf_uploaded.json
+__pycache__/

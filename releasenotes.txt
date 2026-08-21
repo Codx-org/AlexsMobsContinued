@@ -1,0 +1,696 @@
+==============================================================================
+Alex's Mobs Continued - Modrinth release notes (Fabric)
+Project: alexs-mobs-continued  (https://modrinth.com/mod/alexs-mobs-continued)
+Fetched: 2026-08-05 from the Modrinth v2 API
+14 releases, oldest first, one entry each (the per-MC Fabric versions of a
+release share the same changelog, so they are collapsed here).
+==============================================================================
+
+
+==============================================================================
+  0.1.0
+==============================================================================
+Released    2026-06-15
+MC          26.1, 26.1.1, 26.1.2
+Nodes       1 Fabric version
+Downloads   32 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# Alex's Mobs (Updated & Ported) — 0.1.0 · First Fabric Beta
+
+The first public beta of **Alex's Mobs** ported to **Minecraft 26.1.2** on **Fabric**. The full
+roster is in and playable — this build is for testing and feedback.
+
+
+## What's included
+
+- **~116 mobs** — the complete Alex's Mobs roster, with their models, textures, and animations.
+- **Behaviour** — taming, breeding, mob-specific abilities, attacks, and natural spawning.
+- **Items, blocks, and spawn eggs** for every mob.
+- Fabric + Fabric API.
+
+## Known issues (beta)
+
+- A few **3D item icons** (the transmutation table item, advancement mob-icons) use flat
+  placeholder icons for now — the special 3D item-renderer is still being ported.
+- The transmutation table **block** renders as a translucent obsidian cube — this is how the
+  original mod renders it, not a bug.
+- Some per-mob behaviours are still being verified; please report anything that looks off.
+
+## Feedback
+
+This is a **beta** — bug reports, crashes, and "this mob does X in the original but Y here" notes
+are very welcome.
+
+> Forge and NeoForge builds are in progress but not yet ready.
+
+
+==============================================================================
+  1.0.0
+==============================================================================
+Released    2026-06-29
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   1539 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.0 — First full Fabric release
+
+The first stable release of **Alex's Mobs Continued** for **Minecraft 26.1.2** on **Fabric**. The
+complete Alex's Mobs roster is in, playable, and ported as close to the original as possible.
+
+## Highlights
+
+- **The complete roster — ~116 mobs**, each with its original model, textures, and animations.
+- **Full behaviour** — taming, breeding, natural spawning by biome, mob-specific abilities and
+  attacks, egg-laying, bucketing, and riding.
+- **All the content** — items, blocks, armor, and a spawn egg for every mob.
+- **Animal Dictionary & advancements** to track your discoveries.
+
+## Fixes since the beta
+
+- **Spawn eggs now work** — every mob's spawn egg correctly summons its mob again.
+- **Animations fixed across the whole roster** — special animations (attacks, pecks, slams) play and
+  complete properly, and sit/sleep/rest poses sit at the right height.
+- Numerous per-mob behaviour fixes (kangaroo attacks, hummingbird flight, falconry perch, and more)
+  and texture/icon cleanup.
+
+## Requirements
+
+- **Minecraft 26.1.2**, **Fabric Loader 0.18.6+**
+- **Fabric API**
+- **CodxLib 1.3.0+** (required — install it alongside this mod)
+
+## Feedback
+
+Found a mob that behaves differently than in the original Alex's Mobs? Reports and feedback are very
+welcome — please open an issue or reach out on [Discord](https://discord.gg/7jkpWz2Uks).
+
+  --- 1.0.0 shipped a different changelog: ---
+
+Updated for 26.2
+
+
+==============================================================================
+  1.0.1
+==============================================================================
+Released    2026-07-23
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   1119 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.1 — Crash fix
+
+A small but important fix: a server crash that could happen during ordinary combat.
+
+## Fixed
+
+- **Fixed a crash when a frilled shark killed what it was attacking.** Landing the killing blow
+  crashed the server mid-tick — and on a singleplayer or LAN world, that takes the whole game down.
+  Most likely to show up around deep oceans, where frilled sharks hunt.
+- **Fixed the same underlying problem in the cachalot whale**, which could crash while a whale had a
+  giant squid in its jaws. Nobody reported this one — it turned up while checking every other mob
+  for the same mistake after the shark crash came in.
+
+Nothing else changed. Worlds, saves, tamed mobs and inventories are all unaffected — just drop the
+new jar in.
+
+Huge thanks to the player who sent in the crash report. That report is the only reason this was
+found, and it led straight to the second crash as well.
+
+## Also new: Minecraft 26.2
+
+This is the first build of Alex's Mobs Continued for **Minecraft 26.2**, on Fabric, Forge and
+NeoForge. The full mob roster and all content carry over unchanged from the 26.1.2 release — the
+work was updating the mod to the new Minecraft version, not changing how it plays.
+
+## Requirements
+
+**Minecraft 26.1.2**
+
+- Fabric Loader 0.18.6+ · Forge 64+ · NeoForge
+- Fabric API (Fabric only)
+- **CodxLib 1.1.0+** — required, install it alongside this mod
+
+**Minecraft 26.2**
+
+- Fabric Loader 0.19.3+ · Forge 65+ · NeoForge
+- Fabric API (Fabric only)
+- **CodxLib 1.3.3+** — required, install it alongside this mod
+
+## Feedback
+
+Found a mob that behaves differently than in the original Alex's Mobs? Reports and feedback are very
+welcome — please open an issue or reach out on [Discord](https://discord.gg/7jkpWz2Uks).
+
+
+==============================================================================
+  1.0.2
+==============================================================================
+Released    2026-07-24
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   414 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.2 — Bug-fix round
+
+A big pass of fixes from player bug reports: two crashes, a lot of things that rendered wrong, and
+several tamed-mob behaviours that simply weren't working. Everything here is on both **Minecraft
+26.1.2** and **Minecraft 26.2**.
+
+## Crashes
+
+- **Fixed a crash when feeding a mob** — giving a maned wolf an apple (and various other mob/food
+  combinations) could take the game down while it spawned the eating particles.
+- **Fixed a crash when putting a carpet on an elephant that already had one.** The carpet did get
+  applied — you'd see it after rejoining — but the game crashed on the spot. Raccoons and bald eagles
+  had the same problem.
+
+## Tamed mobs
+
+- **Tamed mobs have an owner again.** Taming a crow, gorilla, grizzly bear, elephant, raccoon,
+  capuchin monkey or cosmaw showed the hearts but never recorded who tamed it, so the mob kept
+  behaving as if it were wild: it wouldn't follow you, wouldn't obey commands, and wouldn't help you
+  in a fight.
+- **Kangaroo pouch equipment works.** Weapons and armour put in a kangaroo's pouch are now equipped
+  and rendered, and the kangaroo fights with them.
+- **Restored forced mounting**, plus the two mob-specific command messages that were missing when
+  cycling a tamed mob's orders.
+
+## Rendering
+
+- **The Animal Dictionary works.** Previously you could right-click it exactly once — you'd hear the
+  page-turn, get the advancement, and then it could never be opened again, even after rejoining. The
+  book now opens properly, and its text and mob portraits render correctly.
+- **Baby mobs are the right size again.** Around 50 mobs rendered their babies at adult size, or sunk
+  into the ground. (Reported for the baby cockroach.)
+- **Fixed the armour models** for the Unsettling Kimono, Tarantula Hawk Elytra, Rock Shell
+  Chestplate, Novelty Hat, Cave Centipede Leggings, Antler Headdress, Outback Leggings,
+  Frontiersman's Cap, Flying Fish Boots and Frostwalker Helmet — the custom-shaped ones rendered
+  wrong, and two of the leggings rendered nothing at all.
+- **Restored the Rocky Chestplate's rolling animation** — rolling now looks like rolling.
+- **The soul vulture has both wings.**
+- **The endergrade's saddle shows up** once you saddle it.
+- **Cockroaches wear the sombrero again, and dance.**
+- **Riders no longer float.** Sitting on an elephant — and on every other rideable mob — put you
+  about a third of a block too high above its back.
+
+## Items
+
+- **Music discs play.** Right-clicking a jukebox with an Alex's Mobs disc did nothing at all; the
+  Daze and Thime discs are proper jukebox songs now.
+- **Fixed two items showing their internal name** (`item.alexsmobs.…`) instead of a proper one.
+
+## Requirements
+
+**Minecraft 26.1.2**
+
+- Fabric Loader 0.18.6+ · Forge 64+ · NeoForge
+- Fabric API (Fabric only)
+- **CodxLib 1.1.0+** — required, install it alongside this mod
+
+**Minecraft 26.2**
+
+- Fabric Loader 0.19.3+ · Forge 65+ · NeoForge
+- Fabric API (Fabric only)
+- **CodxLib 1.3.3+** — required, install it alongside this mod
+
+Worlds, saves, tamed mobs and inventories are unaffected — just drop the new jar in.
+
+## Feedback
+
+Enormous thanks to everyone who sent in bug reports; every fix above came from one. Found a mob that
+behaves differently than in the original Alex's Mobs? Reports and feedback are very welcome — please
+open an issue or reach out on [Discord](https://discord.gg/7jkpWz2Uks).
+
+
+==============================================================================
+  1.0.3
+==============================================================================
+Released    2026-07-25
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   343 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.3 — The Vine Lasso's rope is visible again
+
+A small follow-up to 1.0.2, fixing one reported bug on **Minecraft 26.1.2** and **Minecraft 26.2**.
+
+## Fixed
+
+- **Lassoing a mob draws the rope again.** The Vine Lasso worked — the mob stayed tied to you and
+  followed you around — but the vine connecting the two of you was invisible.
+- The spinning lasso itself, while it's still in flight, now trails its rope from the right spot too.
+
+## Feedback
+
+Thanks again to everyone sending in reports — this fix came from one. Found a mob that behaves
+differently than in the original Alex's Mobs? Reports and feedback are very welcome — please open an
+issue or reach out on [Discord](https://discord.gg/7jkpWz2Uks).
+
+
+==============================================================================
+  1.0.4
+==============================================================================
+Released    2026-07-25
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   441 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.4 — Bug fixes from your reports
+
+A bug-fix release for **Minecraft 26.1.2** and **Minecraft 26.2**. It also includes everything from
+1.0.3, which was never released.
+
+## Fixed
+
+- **Baby bison look right again.** They were being drawn with the adult body shape wearing the baby's
+  texture.
+- **Catfish of different sizes no longer copy each other.** With several catfish on screen at once,
+  they all took the shape of whichever one the game happened to handle last, so the wrong size of body
+  showed up under the right texture.
+- The same mix-up affected **flutters, tarantula hawks and leafcutter ants**, and is fixed for them too.
+- **The Sunbird's Blessing slows your fall again**, and the Sunbird's Curse drags you down again.
+  Neither effect was doing anything at all.
+- **Lassoing a mob draws the rope again.** The Vine Lasso worked — the mob stayed tied to you and
+  followed you around — but the vine connecting the two of you was invisible. The spinning lasso
+  itself, while it's still in flight, now trails its rope from the right spot too.
+- **The "update available" notice points at the right page.** It was linking to a project address that
+  doesn't exist, so the in-game notice never found the mod.
+
+## Note
+
+If the Animal Dictionary wouldn't open for you, that was fixed back in **1.0.2** — updating will sort
+it. The book opens when you right-click with it in hand; right-clicking a mob that isn't from Alex's
+Mobs does nothing, which is how the original mod behaves too.
+
+## Feedback
+
+Thanks to everyone sending in reports — every fix above came from one. Found a mob that behaves
+differently than in the original Alex's Mobs? Reports and feedback are very welcome — please open an
+issue or reach out on [Discord](https://discord.gg/7jkpWz2Uks).
+
+
+==============================================================================
+  1.0.5
+==============================================================================
+Released    2026-07-26
+MC          26.1, 26.1.1, 26.1.2, 26.2
+Nodes       2 Fabric versions
+Downloads   4351 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 1.0.5 — Startup crash fix
+
+**If the game crashed while loading with Alex's Mobs Continued installed, this release fixes it.
+Please update.**
+
+## Fixed
+
+- **Fixed a crash on startup.** Alongside certain other mods, the game died while loading — before the
+  main menu ever appeared — with an error mentioning `LevelMultipartMixin` and *"cannot reduce
+  visibiliy of PUBLIC target method"*. There was no way to work around it from inside your pack; the
+  only options were removing this mod or removing the other one.
+
+  The bug has been present since the very first release, but it only triggered when another installed
+  mod happened to touch the same part of the game. That's why some packs crashed on launch and most
+  were completely fine.
+
+Nothing else changed — everything from 1.0.4 is still here.
+
+## Requirements
+
+For **Minecraft 26.1.2** and **Minecraft 26.2**, on **Fabric**. Requires
+[CodxLib](https://modrinth.com/mod/codxlib) and Fabric API.
+
+## Feedback
+
+Thanks to the two of you who sent in the crash reports — that's the only reason this got found. Spotted
+a mob that behaves differently than in the original Alex's Mobs, or something that looks wrong? Reports
+and feedback are very welcome — please open an issue or reach out on
+[Discord](https://discord.gg/7jkpWz2Uks).
+
+
+==============================================================================
+  2.0.0
+==============================================================================
+Released    2026-08-01
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   314 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.0
+
+Alex's Mobs Continued runs on Fabric now, and on every Minecraft version from 1.20.1 to 26.2. The last
+release gave you 18 files to choose from. This one has 49.
+
+Download the file that matches your Minecraft version *and* your loader.
+
+| Minecraft | Forge | NeoForge | Fabric |
+|---|---|---|---|
+| 1.20.1 | ✅ | — | ✅ |
+| 1.20.4, 1.20.6 | ✅ | ✅ | ✅ |
+| 1.21, 1.21.1 | ✅ | ✅ | ✅ |
+| 1.21.2 | — | ✅ | ✅ |
+| 1.21.3, 1.21.4, 1.21.5, 1.21.6 | ✅ | ✅ | ✅ |
+| 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11 | ✅ | ✅ | ✅ |
+| 26.1.2, 26.2 | ✅ | ✅ | ✅ |
+
+The three gaps aren't mine. Forge never published a build for 1.20.5 or 1.21.2, and NeoForge for 1.20.1
+is a different, older toolchain.
+
+Calling it 2.0.0 instead of 1.0.9 because a release ago, two of those three loader columns didn't exist.
+
+## Fabric
+
+Fabric used to mean two files, for 26.1 and 26.2 only, built from a separate project. All 17 Fabric
+builds now come out of the same source as the Forge and NeoForge ones. Fixes land on all three loaders
+at once instead of Fabric trailing a version behind.
+
+Nothing was left out to get there: every mob, the multi-part snakes and worms, the custom armour models,
+brewing, loot, structure spawns, the falconry glove, the animal dictionary. A handful of small things
+work differently on Fabric and they're listed at the bottom.
+
+## Every item was a purple cube on 1.21.4 and newer
+
+Someone reported the falconry glove doesn't appear worn. The glove turned out to be one of 280 items
+that were all broken.
+
+Minecraft 1.21.4 changed how an item finds its model and the mod had never been updated for it. On every
+build for 1.21.4 and up, which is 6 of the 18 files in the last release, every single item in the mod
+rendered as the purple and black missing-model cube. In your hand, in your inventory, on the ground.
+Minecraft doesn't treat that as an error, it just draws the cube, so it went unnoticed for three
+releases.
+
+Items are correct on every version now. The four with a special in-hand look also have it back: the
+falconry glove, skelewag sword, stink ray and vine lasso.
+
+## Fixed from your reports
+
+- Orcas no longer crash the game. If their target died mid-attack the mod kept reading it, which killed
+  the tick loop. Servers and singleplayer both.
+- Sugar gliders no longer crash when foraging. This one fired every tick, so coming back to the area
+  crashed you again straight away.
+- Anacondas and void worms don't show a name tag over every body segment any more.
+- Centipede heads face where they're going instead of always pointing south.
+- Straddleboards move. Since 1.21.2 the board would mount you and play its turning animation but go
+  nowhere.
+- Crows sit still on your shoulder instead of flapping forever.
+- The eagle flight camera doesn't twitch up and down while you steer.
+- The Animal Dictionary is readable. Lines were running out of their column into the next one. Chinese,
+  Japanese and Korean were worse, since there are no spaces to break at.
+
+Three reports I couldn't reproduce, and I've run out of theories on all of them:
+
+- Attacking the giant squid crashes the game. I need the crash report.
+- The blobfish texture looks wrong. The models and the artwork both check out, so I need a screenshot.
+- Something teleports around and gets huge at the edge of your vision. Which mob?
+
+Also still open from last release: the rhinoceros that looks yellow with no face. Best guess is a rhino
+under a potion effect, which grows a coloured horn, and standing next to one puts your camera inside it.
+A screenshot would settle it.
+
+[Discord](https://discord.gg/7jkpWz2Uks) or the issue tracker, either is fine.
+
+## Things that work differently
+
+Each of these is a limit of the Minecraft version or the loader, not a shortcut:
+
+- JEI integration is Forge and NeoForge only, and only up to 1.21.1. JEI doesn't publish a Fabric build
+  this mod can use across the rest of the range.
+- On 26.1 and 26.2 the mod's villager and wandering trader trades are gone. 26.1 made trades data-driven
+  and the old hook no longer exists. Lava Vision also no longer clears the lava you're swimming in,
+  though the potion's fog effect still works.
+- Snow leopards don't give their bonus drops from their own kills on NeoForge 1.21+ or on Fabric.
+  Minecraft 1.21 reworked Looting and removed what this relied on. Looting from your own weapons is
+  unaffected.
+- On Fabric the ghostly pickaxe renders as its plain model. On Fabric 1.20.1 and 1.20.4 an elephant will
+  accept an ender or trapped chest as a howdah. Below Fabric 1.21.4 the jerboa only begs for vanilla
+  seeds, not modded ones.
+- Eagles can break blocks. That's original Alex's Mobs behaviour, not something I introduced.
+
+## Installing
+
+You need Minecraft, your loader, and [CodxLib](https://modrinth.com/mod/codxlib) for your version and
+loader. Fabric users also need Fabric API, which is listed as a dependency on each Fabric file.
+
+You do not need Citadel. The parts of it Alex's Mobs uses are built into the jar. If you already run
+Citadel for something else, leave it, the bundled copy is kept separate and they don't clash.
+
+Updating an existing world is fine. Same mod, same content, your mobs and items and progress carry over.
+
+
+==============================================================================
+  2.0.1
+==============================================================================
+Released    2026-08-01
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1, 26.1.1, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   1626 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.1
+
+One fix, for Minecraft 26.2 only. Every other version is unchanged from 2.0.0 — if you're not on 26.2
+there's no reason to hurry.
+
+## Attacking a cachalot, giant squid or laviathan crashed the game
+
+Someone sent the crash report I asked for in the last release, and it turned out not to be a squid
+problem at all.
+
+These three mobs are built from separate hitbox pieces. Minecraft 26.2 changed where entities get their
+ID number, and those pieces stopped getting one — then reading a missing ID became a crash instead of
+returning nothing. So the moment anything asked which piece you hit, the game went down. On Forge it was
+worse than that: the crash happened as soon as one of them came into view, before you touched it.
+
+They get an ID again now. That also clears up a quieter one: on 26.2 the game counted every piece of
+every one of these mobs as the same piece.
+
+## Still open
+
+- The blobfish texture looks wrong. Models and artwork both check out, so I need a screenshot.
+- Something teleports around and gets huge at the edge of your vision. Which mob?
+- A rhinoceros that looks yellow with no face. Best guess is a rhino under a potion effect, which grows
+  a coloured horn, and standing next to one puts your camera inside it. A screenshot would settle it.
+
+[Discord](https://discord.gg/7jkpWz2Uks) or the issue tracker, either is fine.
+
+## Installing
+
+You need Minecraft, your loader, and [CodxLib](https://modrinth.com/mod/codxlib) for your version and
+loader. Fabric users also need Fabric API, which is listed as a dependency on each Fabric file.
+
+You do not need Citadel. The parts of it Alex's Mobs uses are built into the jar.
+
+Updating from 2.0.0 is a drop-in replacement. Your world carries over.
+
+
+==============================================================================
+  2.0.2
+==============================================================================
+Released    2026-08-02
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   2277 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.2
+
+One small addition. Nothing else changed from 2.0.1.
+
+## You can hide the names above Alex's Mobs mobs
+
+Type `/aac nameplates` in chat to turn them off, and again to turn them back on. `/aac nameplates off`
+and `/aac nameplates on` do it explicitly, and plain `/aac` tells you which way it is set.
+
+It only hides names over mobs from this mod. Vanilla animals, other mods' mobs and players are left
+alone. It changes what *you* see and nothing else — you don't need to be an operator, it works in
+singleplayer and on any server, and the setting is remembered between sessions.
+
+## Installing
+
+You need Minecraft, your loader, and [CodxLib](https://modrinth.com/mod/codxlib) for your version and
+loader. Fabric users also need Fabric API.
+
+You do not need Citadel. The parts of it Alex's Mobs uses are built into the jar.
+
+Updating from 2.0.1 is a drop-in replacement. Your world carries over.
+
+
+==============================================================================
+  2.0.3
+==============================================================================
+Released    2026-08-03
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   1571 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.3
+
+Five visual fixes, all from player reports or found while checking those reports. No new features and
+nothing that touches your world.
+
+## The underminer no longer crashes the game
+
+On 1.21.2 and newer, an underminer coming into view could crash the client outright. It happened on its
+own, and it happened more often with another mod installed that adds anything to how mobs are drawn —
+Trinkets was the one in the reports. The crimson mosquito and the mimicube had the same fault.
+
+## Spawn eggs have their textures back
+
+On 1.21.5 and newer, all 89 of this mod's spawn eggs showed as the purple-and-black missing-model cube.
+Minecraft deleted the shared spawn-egg template they were built on; the mod now carries its own.
+
+## The animal dictionary shows its animals and its text again
+
+Three separate faults, all in the same book:
+
+- On 1.21.4 and newer the mob pictures on the index page were blank frames.
+- On 1.21.2 and newer **every word in the book was invisible** — titles and body text alike.
+- The index page had an empty gap where a picture belonged.
+
+That same invisible-text fault also hid the transmutation table's title, the experience cost on its
+buttons, and the seal's floating message. All fixed.
+
+## Advancement icons are no longer empty
+
+On 1.21.4 and newer, 59 of this mod's advancements had nothing drawn in their icon. They now show the
+mob's spawn egg, or the item the advancement is about. The creative tab has its icon back too.
+
+Those icons used to be animated — the tab icon cycled through a different mob every couple of seconds.
+That relied on something Minecraft removed in 1.21.4 and is not coming back; a still picture is the
+trade.
+
+## Installing
+
+You need Minecraft, your loader, and [CodxLib](https://modrinth.com/mod/codxlib) for your version and
+loader. Fabric users also need Fabric API.
+
+You do not need Citadel. The parts of it Alex's Mobs uses are built into the jar.
+
+Updating from 2.0.2 is a drop-in replacement. Your world carries over.
+
+
+==============================================================================
+  2.0.4
+==============================================================================
+Released    2026-08-04
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   347 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.4
+
+A crash fix on NeoForge, a mob you could never tame, and — on Fabric — the repair of something that
+has been broken since Fabric support shipped. No new features, nothing that touches your world.
+
+## Fabric: the mod can talk to the server again
+
+**On Fabric, this mod has never sent a single network message.** Anything where your client tells the
+server what you did, or the server tells your client what happened, quietly did nothing:
+
+- the bald eagle's falconry — launching it, sending it at an animal, the first-person hooded flight;
+- attacking a cachalot whale, giant squid or laviathan **body segment** (the head still worked);
+- the transmutation table's buttons;
+- ordering a tamed mob around, and the mob-command screens generally.
+
+Some of these were reported as separate bugs. They were one missing piece, now in place on every
+Fabric version from 1.20.1 to 26.2. If you play Fabric and had written any of it off as "just doesn't
+work in this mod" — try it again.
+
+## Opening a kangaroo's inventory no longer crashes
+
+On NeoForge 1.20.5 and newer, opening a tamed kangaroo's inventory crashed the game. Anything sending
+an item across the network hit the same fault, so a kangaroo eating and a few internal messages could
+crash too. Fixed.
+
+## Kangaroos no longer destroy their own weapon and armour
+
+Give a kangaroo a sword and it vanished after a single swing — same for a helmet or chestplate the
+first time the kangaroo was hit. Rather than taking one point of wear, the item was thrown away
+outright. Kangaroo gear now wears down normally and only breaks when its durability runs out.
+
+Affects Minecraft 1.21 and newer, on every loader.
+
+## Komodo dragons can be tamed
+
+The list of foods that tames a komodo dragon shipped **empty**, so nothing worked and the game gave no
+hint why. It is rotten flesh, as it always should have been. Every other tameable mob's food list was
+checked at the same time; the komodo was the only one affected.
+
+Worth knowing, because it has always worked this way and looks like a bug: you must hold a **full
+stack** of rotten flesh, the whole stack is eaten whether or not it works, and it takes a few stacks
+on average. Feeding one at a time will never tame it.
+
+## Also fixed
+
+**The bald eagle's falconry works on Fabric.** Beyond the networking fix above, the attack-key press
+that starts the falconry loop was listened for in a way only Forge and NeoForge provide. It now
+listens the Fabric way, which also restores the tendon whip's crack.
+
+**Items with no picture in the creative menu.** The shattered dimensional carver, the shield of the
+deep and a few others showed as empty slots — no picture at all, though hovering still gave the name.
+Two different causes with the same look: on Fabric below 1.21.4, eleven items were drawn by a special
+renderer this loader never switched on; on 1.21.4 and newer (all loaders) Minecraft removed that kind
+of renderer entirely, so those items now carry ordinary models built into the jar. The end pirate
+anchor, its winch and the ship wheel are in the second group. Blocks placed in the world were never
+affected — this was only how they looked in your inventory.
+
+## Installing
+
+You need Minecraft, your loader, and [CodxLib](https://modrinth.com/mod/codxlib) for your version and
+loader. Fabric users also need Fabric API.
+
+You do not need Citadel — the parts of it Alex's Mobs uses are built into the jar.
+
+Updating from any 2.0.x is a drop-in replacement. Your world carries over.
+
+
+==============================================================================
+  2.0.5
+==============================================================================
+Released    2026-08-04
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   733 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.5
+
+**Fixed:** on Minecraft 1.21.2 and newer, every mob from this mod was drawing its own type name
+above its head — "Grizzly Bear" over a wild bear. Names now show only on mobs you have named with
+a name tag, like vanilla. 1.21.1 and older were never affected.
+
+**Removed:** `/aac nameplates`. It existed to hide those names, so with the real fault fixed there
+is nothing left for it to do.
+
+Updating from any 2.0.x is drop-in. Requires [CodxLib](https://modrinth.com/mod/codxlib); Fabric
+also needs Fabric API.
+
+
+==============================================================================
+  2.0.6
+==============================================================================
+Released    2026-08-05
+MC          1.20.1, 1.20.4, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, 1.21.4, 1.21.5, 1.21.6, 1.21.7, 1.21.8, 1.21.9, 1.21.10, 1.21.11, 26.1.2, 26.2
+Nodes       17 Fabric versions
+Downloads   829 (Fabric only, all MC versions of this release)
+------------------------------------------------------------------------------
+
+# 2.0.6
+
+**Fixed a crash:** on **Fabric 1.20.1 and 1.20.4**, right-clicking while holding a **glass bottle**
+crashed the game instantly — anywhere, not just near lava, so simply filling a bottle at water
+was enough. Other loaders and newer Minecraft versions were never affected.
+
+Updating from any 2.0.x is drop-in. Requires [CodxLib](https://modrinth.com/mod/codxlib); Fabric
+also needs Fabric API.
+

@@ -1,0 +1,218 @@
+# Fabric access widener — the Fabric-side twin of META-INF/accesstransformer_mojmap.cfg.
+#
+# ⚠️ THIS IS A TEMPLATE, NOT A WIDENER. It carries NO header line and it is never shipped: each
+# Fabric node's buildscript expands it through `generateAccessWidener` (build-logic/AccessWidener.kt)
+# into build/generated/accessWidener/alexsmobs.accesswidener, which is what loom validates, remaps
+# and puts in the jar. Editing the generated copy accomplishes nothing.
+#
+# WHY a template. An AT entry naming an absent member is a silent no-op, so one .cfg can list both
+# eras of a member that moved. An AW entry naming an absent member is a HARD ERROR — loom's
+# `validateAccessWidener` refuses the build — and this file has to serve seventeen Fabric nodes from
+# MC 1.20.1 to 26.2, across which the header namespace changes once and eight entries change
+# descriptor, package or type. Hand-maintaining six near-identical files was the alternative.
+#
+# ⚠️ WHY IT IS NOT UNDER src/. Stonecutter DOES register .accesswidener as a `#`-comment file type
+# and preprocesses the whole source tree, so a template kept there dies at stonecutterPrepare with
+# "Extraneous input '{'" — the directives below are not its syntax. Native Stonecutter gating is not
+# the answer either: its inactive arms come back as `#`-prefixed lines, and a widener's header must
+# be the file's literal FIRST line, so the one thing that most needs gating is the one thing it
+# cannot gate. Hence a plain root-level directory that Stonecutter never walks.
+#
+# DIRECTIVES (see AccessWidener.kt for the grammar):
+#   #? <expr>     gates the next entry line
+#   #?{ <expr>    opens a gated block …
+#   #?}           … and closes it. Blocks do not nest, same house rule as the //? source gates.
+# `<expr>` is the tree's ordinary version-predicate grammar; atoms are evaluated by Stonecutter
+# itself, so `26` outranking `1.21.11` is decided in exactly one place. The generator emits the
+# header: "official" on the unobfuscated 26.x nodes (loom-no-remap has no mappings tree and
+# validates against the game's own names), "named" below, where classic loom remaps named →
+# intermediary on the way into the jar and rejects an "official" header.
+#
+# TWO RULES WHEN EDITING:
+#  1. A FIELD entry must carry the field's DESCRIPTOR, which an AT does not have. Read it off the
+#     unpatched jar rather than guessing:
+#       javap -p -s -cp <mc-merged.jar> net.minecraft.world.entity.Mob | grep -A1 ' navigation;'
+#  2. Pre-flight EVERY version before touching a node:
+#       scripts/aw_check.py accesswidener/alexsmobs.accesswidener 1.20.1 1.20.4 … 26.2
+#     It understands these directives and reports the descriptor it DID find, so a moved member
+#     gets a new gated arm rather than a deletion. `./gradlew :<node>:validateAccessWidener` is the
+#     authority, but only answers one node at a time and only after a full loom setup.
+
+accessible	field	net/minecraft/client/renderer/entity/LivingEntityRenderer	model	Lnet/minecraft/client/model/EntityModel;
+accessible	field	net/minecraft/client/renderer/LevelRenderer	viewArea	Lnet/minecraft/client/renderer/ViewArea;
+# The post-processing trio behind the Clinging potion's screen flip. Private in vanilla; Forge and
+# NeoForge both ship them widened, which is why no accesstransformer entry exists for them and why
+# they only surfaced when ClientEvents started compiling on Fabric. 1.21.2 reworked the pipeline and
+# deleted all three, and the flip is a no-op from there on, so the gate matches the source gate.
+#?{ <1.21.2
+accessible	method	net/minecraft/client/renderer/GameRenderer	loadEffect	(Lnet/minecraft/resources/ResourceLocation;)V
+accessible	method	net/minecraft/client/renderer/GameRenderer	currentEffect	()Lnet/minecraft/client/renderer/PostChain;
+accessible	method	net/minecraft/client/renderer/GameRenderer	shutdownEffect	()V
+#?}
+# The block's loot-table reference, retyped twice: ResourceLocation → ResourceKey at the 1.20.5
+# registry-key sweep, then wrapped in Optional at 1.21.2.
+#? <1.20.5
+accessible	field	net/minecraft/world/level/block/state/BlockBehaviour	drops	Lnet/minecraft/resources/ResourceLocation;
+#? (>=1.20.5 && <1.21.2)
+accessible	field	net/minecraft/world/level/block/state/BlockBehaviour	drops	Lnet/minecraft/resources/ResourceKey;
+#? >=1.21.2
+accessible	field	net/minecraft/world/level/block/state/BlockBehaviour	drops	Ljava/util/Optional;
+accessible	field	net/minecraft/world/entity/Mob	navigation	Lnet/minecraft/world/entity/ai/navigation/PathNavigation;
+accessible	field	net/minecraft/world/entity/Entity	eyeHeight	F
+accessible	field	net/minecraft/world/entity/Entity	portalCooldown	I
+accessible	field	net/minecraft/world/entity/LivingEntity	jumping	Z
+accessible	field	net/minecraft/world/entity/projectile/FireworkRocketEntity	DATA_ID_FIREWORKS_ITEM	Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible	field	net/minecraft/world/entity/projectile/FireworkRocketEntity	DATA_ATTACHED_TO_TARGET	Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible	field	net/minecraft/world/entity/projectile/FireworkRocketEntity	lifetime	I
+accessible	field	net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator	settings	Lnet/minecraft/core/Holder;
+accessible	field	net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator	globalFluidPicker	Ljava/util/function/Supplier;
+accessible	field	net/minecraft/world/level/chunk/LevelChunkSection	biomes	Lnet/minecraft/world/level/chunk/PalettedContainerRO;
+# The octopus' average-texture-colour scan; Forge reads it through TextureAtlasSprite#getPixelRGBA.
+accessible	field	net/minecraft/client/renderer/texture/SpriteContents	originalImage	Lcom/mojang/blaze3d/platform/NativeImage;
+
+# ClientProxy registers five extra fixed RenderTypes into RenderBuffers' private SortedMap. 1.20.2
+# replaced that map with SectionBufferBuilderPack and the registration is gated out from there up,
+# so only the single 1.20.1 node needs this.
+#? <1.20.2
+accessible	field	net/minecraft/client/renderer/RenderBuffers	fixedBuffers	Ljava/util/SortedMap;
+
+# The two music discs. Vanilla's RecordItem constructor is protected (Forge patches in a public
+# Supplier<SoundEvent> overload); 1.21 replaced RecordItem entirely with a jukebox_song datapack
+# entry, so only the pre-1.21 nodes construct one.
+#? <1.21
+accessible	method	net/minecraft/world/item/RecordItem	<init>	(ILnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/item/Item$Properties;I)V
+
+# ⚠️ Entity#collide is DELIBERATELY NOT widened. It is private in vanilla (Forge patches it to
+# be overridable), and Fabric's AW spec makes a private method that is made `accessible` also
+# FINAL, precisely to preserve invokespecial semantics — so widening it does not buy an override,
+# it forbids one. The three mobs that override it (tiger, rocky roller, giant squid) are gated
+# out on Fabric; restoring them needs a mixin on Entity#collide.
+accessible	method	net/minecraft/world/entity/Entity	setLevel	(Lnet/minecraft/world/level/Level;)V
+# ClientProxy registers ~140 renderers through EntityRenderers#register, which is PRIVATE in
+# vanilla and public only in the loaders' patched jars. 26.x reopened it, so this is <26 only.
+#? <26
+accessible	method	net/minecraft/client/renderer/entity/EntityRenderers	register	(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V
+# Camera#move took doubles until 1.21 narrowed it to floats.
+#? <1.21
+accessible	method	net/minecraft/client/Camera	move	(DDD)V
+#? >=1.21
+accessible	method	net/minecraft/client/Camera	move	(FFF)V
+# 1.21.2 moved the damage pipeline onto ServerLevel and dropped the boolean return.
+#? <1.21.2
+accessible	method	net/minecraft/world/entity/boss/enderdragon/EnderDragon	reallyHurt	(Lnet/minecraft/world/damagesource/DamageSource;F)Z
+#? >=1.21.2
+accessible	method	net/minecraft/world/entity/boss/enderdragon/EnderDragon	reallyHurt	(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)V
+accessible	method	net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator	iterateNoiseColumn	(Lnet/minecraft/world/level/LevelHeightAccessor;Lnet/minecraft/world/level/levelgen/RandomState;IILorg/apache/commons/lang3/mutable/MutableObject;Ljava/util/function/Predicate;)Ljava/util/OptionalInt;
+
+# --- from the bundled Citadel subset (Citadel, LGPL-3.0-only) ---
+accessible	field	net/minecraft/world/level/pathfinder/NodeEvaluator	entityWidth	I
+accessible	field	net/minecraft/world/level/pathfinder/NodeEvaluator	entityHeight	I
+accessible	field	net/minecraft/world/level/pathfinder/NodeEvaluator	entityDepth	I
+accessible	method	net/minecraft/server/level/ChunkMap	getVisibleChunkIfPresent	(J)Lnet/minecraft/server/level/ChunkHolder;
+# 1.21.11's package sweep moved AbstractArrow into ...projectile.arrow.
+#? <1.21.11
+accessible	method	net/minecraft/world/entity/projectile/AbstractArrow	setPierceLevel	(B)V
+#? >=1.21.11
+accessible	method	net/minecraft/world/entity/projectile/arrow/AbstractArrow	setPierceLevel	(B)V
+# public-f in the AT: >=1.21.2 made it final and moved the per-variant override here. Its return
+# type tracks BlockBehaviour#drops above, version for version.
+#?{ <1.20.5
+accessible	method	net/minecraft/world/entity/Mob	getLootTable	()Lnet/minecraft/resources/ResourceLocation;
+extendable	method	net/minecraft/world/entity/Mob	getLootTable	()Lnet/minecraft/resources/ResourceLocation;
+#?}
+#?{ (>=1.20.5 && <1.21.2)
+accessible	method	net/minecraft/world/entity/Mob	getLootTable	()Lnet/minecraft/resources/ResourceKey;
+extendable	method	net/minecraft/world/entity/Mob	getLootTable	()Lnet/minecraft/resources/ResourceKey;
+#?}
+#?{ >=1.21.2
+accessible	method	net/minecraft/world/entity/Mob	getLootTable	()Ljava/util/Optional;
+extendable	method	net/minecraft/world/entity/Mob	getLootTable	()Ljava/util/Optional;
+#?}
+
+# --- NO AT COUNTERPART: members Forge and NeoForge widen by PATCHING the vanilla jar ---
+#
+# Everything above mirrors an entry in accesstransformer_mojmap.cfg. These do not, and that is
+# not an oversight in the AT: both Forge and NeoForge ship a patched Minecraft jar in which
+# these members are already public, so a Forge-authored mod never has to ask. Fabric's jar is
+# unpatched, so the mod's ordinary source — which has compiled on both loaders since 1.20.1 —
+# stops compiling here until each one is widened explicitly.
+#
+# This is the part of the file most likely to GROW as a node is added, because it tracks the
+# loaders' patch sets rather than this mod's own access needs. Read every descriptor off the
+# unpatched jar (`javap -p -s`), never from memory.
+accessible	field	net/minecraft/world/entity/Mob	goalSelector	Lnet/minecraft/world/entity/ai/goal/GoalSelector;
+accessible	field	net/minecraft/world/entity/Mob	targetSelector	Lnet/minecraft/world/entity/ai/goal/GoalSelector;
+accessible	field	net/minecraft/client/gui/screens/Screen	renderables	Ljava/util/List;
+accessible	method	net/minecraft/world/entity/Entity	getEncodeId	()Ljava/lang/String;
+accessible	method	net/minecraft/world/level/block/Block	popExperience	(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;I)V
+accessible	method	net/minecraft/client/renderer/entity/LivingEntityRenderer	addLayer	(Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z
+# Registering a particle type means constructing one; the ctor is protected in vanilla.
+accessible	method	net/minecraft/core/particles/SimpleParticleType	<init>	(Z)V
+# The 4-arg ctor is PRIVATE in vanilla — the mod's own DamageSource subclass super()s to it.
+accessible	method	net/minecraft/world/damagesource/DamageSource	<init>	(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;)V
+# 1.20.5 made SpawnPlacements.register private (verified by javap on the unpatched Fabric jar, so
+# this is vanilla and not a loader patch) — both loaders route registration through their own
+# SpawnPlacementRegisterEvent instead. Fabric API has no such event, so AMEntityRegistry.placement
+# calls vanilla's registrar directly there. Below 1.20.5 it is already public and this entry is a
+# harmless no-op, but the placement-type argument was still the nested SpawnPlacements$Type.
+#? <1.20.5
+accessible	method	net/minecraft/world/entity/SpawnPlacements	register	(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacements$Type;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
+#? >=1.20.5
+accessible	method	net/minecraft/world/entity/SpawnPlacements	register	(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacementType;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
+# MenuScreens.register is PRIVATE in vanilla and its ScreenConstructor is package-private
+# (javap-verified on the unpatched 26.2 jar, so this is vanilla, not a loader patch). Forge kept
+# it public; NeoForge closed it off at 20.6 and routes registration through RegisterMenuScreensEvent
+# — which is why the call site in ClientProxy.clientInit is gated `forge || fabric || <1.20.6`.
+# Fabric API's own fabric-screen-handler-api-v1 widens exactly these two, but in the INTERMEDIARY
+# namespace, which an unobfuscated no-remap node has no mappings tree to resolve — so widen them
+# ourselves rather than depend on a transitive AW landing.
+accessible	class	net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
+accessible	method	net/minecraft/client/gui/screens/MenuScreens	register	(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/client/gui/screens/MenuScreens$ScreenConstructor;)V
+# BlockEntityType.Builder was deleted at 1.21.2, so AMTileEntityRegistry constructs the type
+# directly — and on 26.1.2 vanilla BOTH the constructor and the BlockEntitySupplier interface are
+# non-public (javap on the unpatched jar: `private BlockEntityType(...)`, package-private
+# `interface BlockEntitySupplier`). Forge and NeoForge patch them open, which is why only Fabric
+# needs this; 26.2 made both public in vanilla, where they are simply a no-op. Below 1.21.2 the
+# ctor still took the datafixer Type that Builder used to supply.
+accessible	class	net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
+#? <1.21.2
+accessible	method	net/minecraft/world/level/block/entity/BlockEntityType	<init>	(Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;Lcom/mojang/datafixers/types/Type;)V
+#? >=1.21.2
+accessible	method	net/minecraft/world/level/block/entity/BlockEntityType	<init>	(Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
+# The vanilla block-model Gson adapters the vendored Tabula loader registers. The CLASSES are
+# public; it is their no-arg constructors that vanilla declares `protected` (javap -p -s on the
+# unpatched named jar: `protected ...$Deserializer(); descriptor: ()V`). Forge and NeoForge both
+# patch them public, which is why TabulaModelHandler / TabulaModelBlock have compiled there since
+# 1.20.1 with no AT entry. Only reachable below 26 — the >=26 arms of both files drop the adapters
+# and ModPlatformPlugin excludes TabulaModelBlock outright there.
+#?{ <26
+accessible	method	net/minecraft/client/renderer/block/model/ItemTransforms$Deserializer	<init>	()V
+accessible	method	net/minecraft/client/renderer/block/model/ItemTransform$Deserializer	<init>	()V
+accessible	method	net/minecraft/client/renderer/block/model/BlockElement$Deserializer	<init>	()V
+accessible	method	net/minecraft/client/renderer/block/model/BlockElementFace$Deserializer	<init>	()V
+#?}
+# The other two adapters in the same call, each retired earlier than the four above and each
+# matching TabulaModelBlock's own arms: BlockFaceUV was folded into BlockElementFace$UVs at 1.21.5,
+# and ItemOverride went with the item-model-definition rewrite at 1.21.4.
+#? <1.21.5
+accessible	method	net/minecraft/client/renderer/block/model/BlockFaceUV$Deserializer	<init>	()V
+#? <1.21.4
+accessible	method	net/minecraft/client/renderer/block/model/ItemOverride$Deserializer	<init>	()V
+# AMCompat.ingredientOfTags builds a multi-tag Ingredient the pre-1.21.2 way: a stream of
+# Ingredient.TagValue handed to Ingredient.fromValues. In vanilla the nested class, its constructor
+# AND fromValues are all non-public (javap -p: `class ...$TagValue`, package-private <init>,
+# `private static ... fromValues(...)`); Forge and NeoForge patch all three. 1.21.2 made Ingredient
+# HolderSet-backed and deleted the lot, which is what the >=1.21.2 arm of that method targets.
+#?{ <1.21.2
+accessible	class	net/minecraft/world/item/crafting/Ingredient$TagValue
+accessible	method	net/minecraft/world/item/crafting/Ingredient$TagValue	<init>	(Lnet/minecraft/tags/TagKey;)V
+accessible	method	net/minecraft/world/item/crafting/Ingredient	fromValues	(Ljava/util/stream/Stream;)Lnet/minecraft/world/item/crafting/Ingredient;
+#?}
+
+# STILL TO COME as the oldest nodes land — do not add these speculatively, an entry whose
+# descriptor is wrong is a build failure rather than a no-op:
+#   Mob.leashInfoTag / Mob.restoreLeashFromSave — needed <1.20.5, where EntitySpectre's own gated
+#     arm inlines Mob#tickLeash's restore-from-save tail. From 1.20.5 up they are private and the
+#     mod delegates to super instead; 26.x deleted them outright.
+#   BlockRenderDispatcher.liquidBlockRenderer — only if a Fabric node below 26 ever compiles
+#     LavaVisionFluidRenderer, which ModPlatformPlugin currently excludes on Fabric outright.

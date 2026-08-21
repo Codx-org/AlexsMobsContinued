@@ -1,0 +1,335 @@
+# Alex's Mobs Continued — Stonecutter central config. Single source of truth for node deps.
+#
+# This tree carries the ORIGINAL Alex's Mobs Forge source forward across MC versions on
+# Forge + NeoForge — and, since 2026-07-30, on Fabric as well (this repo now owns the Fabric
+# line; the sibling AlexsMobsFP repo is a reference/archive).
+#
+# Only versions listed as nodes in settings.gradle.kts are built; the extra sections below
+# are the forward map, pre-filled from codxlib's proven per-version pins.
+
+loomx.loom_version = "1.16-SNAPSHOT"
+
+mod.id = "alexsmobs"
+mod.name = "Alex's Mobs Continued"
+mod.group = "com.github.alexthe666"
+mod.version = "2.1.6"
+mod.description = "New, original, engaging, and aesthetic mobs for Minecraft."
+mod.authors = ["Alexthe668", "Carro1001", "Paint_Ninja", "Lynk", "Codx.io"]
+mod.license.name = "LGPL-3.0"
+mod.license.url = "https://www.gnu.org/licenses/lgpl-3.0.html"
+mod.sources_url = "https://github.com/Codx-org/Alexs-Mobs-Updated-Ported"
+mod.homepage_url = "https://modrinth.com/mod/alexs-mobs-continued"
+mod.issues_url = "https://github.com/Codx-org/Alexs-Mobs-Updated-Ported/issues"
+mod.inception_year = "2021"
+
+# CodxLib — the shared codx companion library, a REQUIRED separately-distributed dependency.
+# Resolved per node from the local Maven repo as codx:codxlib:<ver>-<loader>+<mc>, which
+# `cd ../codxlib && python3 scripts/install_maven_local.py` fills. This is the BUILD-TIME pin;
+# the range each manifest declares to players is written in the five buildscripts, and it is
+# deliberately a floor rather than this exact version.
+deps.codxlib = "1.4.0"
+
+# Fabric-only manifest fields (ignored by the Forge/NeoForge manifest generators).
+# The access widener is Fabric's answer to the Forge access transformer; it is generated
+# from META-INF/accesstransformer_mojmap.cfg and lives at the resource root.
+mod.fabric.entrypoint_main = "com.github.alexthe666.alexsmobs.fabric.AlexsMobsFabric"
+mod.fabric.entrypoint_client = "com.github.alexthe666.alexsmobs.fabric.AlexsMobsFabricClient"
+mod.fabric.access_widener = "alexsmobs.accesswidener"
+# Upstream's logo lives where the Forge manifest's logoFile points, not at Fabric's
+# conventional assets/<modid>/icon.png. Pointing at it beats duplicating 300 KB per jar.
+mod.fabric.icon = "assets/icon.png"
+
+# ---------------------------------------------------------------------------
+# Forge (net.minecraftforge:forge, built via Architectury Loom on Gradle 9).
+# deps.forge is the build number only; "<mc>-<forge>" is assembled in the buildscript.
+# Forge has NO upstream build for 1.20.5 or 1.21.2.
+#
+# deps.citadel — Alex's Mobs' hard dependency. Citadel only ships for 1.20.1 (Forge +
+# NeoForge) and 1.21.1 (NeoForge). Above that there is nothing to depend on, so those
+# nodes must bundle the required Citadel subset instead (see docs/porting-plan.md).
+# ---------------------------------------------------------------------------
+
+[forge."1.20.1"]
+deps.minecraft = "1.20.1"
+deps.forge = "47.4.21"
+# Upstream's exact pin at AlexsMobs 1.22.9 (Citadel 2.6.3 for 1.20.1).
+deps.citadel = "curse.maven:citadel-331936:5633260"
+deps.jei = "15.2.0.22"
+deps.jei-mc = "1.20.1"
+
+[forge."1.20.4"]
+deps.minecraft = "1.20.4"
+deps.forge = "49.2.8"
+deps.jei = "17.3.1.5"
+deps.jei-mc = "1.20.4"
+
+[forge."1.20.6"]
+deps.minecraft = "1.20.6"
+deps.forge = "50.2.9"
+deps.jei = "18.0.0.66"
+deps.jei-mc = "1.20.6"
+
+[forge."1.21"]
+deps.minecraft = "1.21"
+deps.forge = "51.0.33"
+deps.jei = "19.8.2.99"
+deps.jei-mc = "1.21"
+
+[forge."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.forge = "52.1.15"
+deps.jei = "19.39.0.370"
+deps.jei-mc = "1.21.1"
+
+[forge."1.21.3"]
+deps.minecraft = "1.21.3"
+deps.forge = "53.1.11"
+
+[forge."1.21.4"]
+deps.minecraft = "1.21.4"
+deps.forge = "54.1.17"
+
+[forge."1.21.5"]
+deps.minecraft = "1.21.5"
+deps.forge = "55.1.11"
+
+[forge."1.21.6"]
+deps.minecraft = "1.21.6"
+deps.forge = "56.0.0"
+
+[forge."1.21.7"]
+deps.minecraft = "1.21.7"
+deps.forge = "57.0.0"
+
+[forge."1.21.8"]
+deps.minecraft = "1.21.8"
+deps.forge = "58.1.19"
+
+[forge."1.21.9"]
+deps.minecraft = "1.21.9"
+deps.forge = "59.0.5"
+
+[forge."1.21.10"]
+deps.minecraft = "1.21.10"
+deps.forge = "60.1.11"
+
+# Pinned to 61.1.0 deliberately: later 61.1.x builds ship binary patches for
+# net.minecraft.network.codec.ByteBufCodecs inconsistent with loom's merged 1.21.11 jar,
+# so the dev server dies at vanilla startup. Only affects runServer; jars run on any 61.x.
+[forge."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.forge = "61.1.0"
+
+# ---------------------------------------------------------------------------
+# NeoForge (modern moddev). No usable bundle below 1.20.4 — 1.20.1 NeoForge is the
+# legacy net.neoforged:forge toolchain and is intentionally not a node here.
+# ---------------------------------------------------------------------------
+
+[neoforge."1.20.4"]
+deps.minecraft = "1.20.4"
+deps.neoforge = "20.4.251"
+deps.jei = "17.3.1.5"
+deps.jei-mc = "1.20.4"
+
+[neoforge."1.20.6"]
+deps.minecraft = "1.20.6"
+deps.neoforge = "20.6.139"
+deps.jei = "18.0.0.66"
+deps.jei-mc = "1.20.6"
+
+[neoforge."1.21"]
+deps.minecraft = "1.21"
+deps.neoforge = "21.0.167"
+deps.jei = "19.8.2.99"
+deps.jei-mc = "1.21"
+
+[neoforge."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.neoforge = "21.1.216"
+deps.jei = "19.39.0.370"
+deps.jei-mc = "1.21.1"
+
+[neoforge."1.21.2"]
+deps.minecraft = "1.21.2"
+deps.neoforge = "21.2.1-beta"
+
+[neoforge."1.21.3"]
+deps.minecraft = "1.21.3"
+deps.neoforge = "21.3.97"
+
+[neoforge."1.21.4"]
+deps.minecraft = "1.21.4"
+deps.neoforge = "21.4.157"
+
+[neoforge."1.21.5"]
+deps.minecraft = "1.21.5"
+deps.neoforge = "21.5.98"
+
+[neoforge."1.21.6"]
+deps.minecraft = "1.21.6"
+deps.neoforge = "21.6.20-beta"
+
+[neoforge."1.21.7"]
+deps.minecraft = "1.21.7"
+deps.neoforge = "21.7.25-beta"
+
+[neoforge."1.21.8"]
+deps.minecraft = "1.21.8"
+deps.neoforge = "21.8.54"
+
+[neoforge."1.21.9"]
+deps.minecraft = "1.21.9"
+deps.neoforge = "21.9.16-beta"
+
+[neoforge."1.21.10"]
+deps.minecraft = "1.21.10"
+deps.neoforge = "21.10.64"
+
+[neoforge."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.neoforge = "21.11.44"
+
+# ---------------------------------------------------------------------------
+# MC 26.x — the unobfuscated line. Forge nodes here build on Architectury Loom's
+# NO-REMAP variant (build.forgenr.gradle.kts) because there is no SRG namespace to
+# remap to, and they read accesstransformer_mojmap.cfg like the NeoForge nodes do.
+# Java 25 (Context.javaVersion switches at >=26).
+# ---------------------------------------------------------------------------
+
+# 26.1, 26.1.1 and 26.1.2 are API-identical, so this one node serves all three. The manifest
+# range must say so or a 26.1 client rejects the jar the store just handed it — widen HERE
+# first, then tag the store to match (see declaredMcRange).
+[forge."26.1.2"]
+deps.minecraft = "26.1.2"
+deps.minecraft-range = "[26.1, 26.1.3)"
+deps.forge = "64.0.12"
+
+[neoforge."26.1.2"]
+deps.minecraft = "26.1.2"
+deps.minecraft-range = "[26.1, 26.1.3)"
+deps.neoforge = "26.1.2.87"
+
+# 26.2 has no stable NeoForge yet — 26.2.0.35-beta is the newest published build.
+[forge."26.2"]
+deps.minecraft = "26.2"
+deps.forge = "65.1.0"
+
+[neoforge."26.2"]
+deps.minecraft = "26.2"
+deps.neoforge = "26.2.0.35-beta"
+
+# ---------------------------------------------------------------------------
+# Fabric. Built newest-first (26.2) and back-filled downward.
+#
+# deps.fabric-loader is the BUILD-TIME pin only — the loader on the compile classpath and
+# in dev runs. It must NEVER be what the manifest declares: launchers install an
+# MC-appropriate (older) loader, so shipping the pin as the floor makes every older node
+# refuse to start. That exact bug crashed codxlib 1.3.3 / OneBlock 3.3.0.
+#
+# Each [fabric."<mc>"] section therefore carries its own deps.fabric-loader-min, set to
+# exactly what that node's pinned fabric-api already requires — read it out of the jar
+# (`unzip -p <fabric-api jar> fabric.mod.json` → depends.fabricloader) rather than guessing;
+# the values are NOT monotonic across MC versions. There is deliberately no global fallback,
+# so a new node that forgets the key fails loudly.
+# ---------------------------------------------------------------------------
+
+[fabric]
+deps.fabric-loader = "0.19.3"
+
+# Below 26.1 the game is obfuscated, so these nodes build on classic loom with a mappings tree
+# (build.fabric.gradle.kts) and their access widener must be declared in the "named" namespace
+# rather than 26.x's "official". That, and eight entries whose descriptor or package moved, is
+# handled by expanding ONE predicated template per node (build-logic/AccessWidener.kt) — there is
+# deliberately no per-node mod.fabric.access_widener any more; every node emits the same filename.
+#
+# No node carries a deps.jei pin: that key is what switches compat/jei/** into the compile, and JEI
+# ships a Fabric flavour only for 1.20.1 → 1.21.1 anyway. Leaving it out drops the JEI integration
+# on the whole Fabric line, matching the >=1.21.2 nodes rather than being a special case. Adding it
+# back for the four eligible nodes is a separate, opt-in piece of work — the artifacts are JEI's
+# FABRIC ones, not the Forge coordinates in the [forge.*] sections above.
+[fabric."1.20.1"]
+deps.minecraft = "1.20.1"
+deps.fabric-api = "0.92.11+1.20.1"
+deps.fabric-loader-min = "0.16.10"
+
+[fabric."1.20.4"]
+deps.minecraft = "1.20.4"
+deps.fabric-api = "0.97.3+1.20.4"
+deps.fabric-loader-min = "0.15.1"
+
+[fabric."1.20.6"]
+deps.minecraft = "1.20.6"
+deps.fabric-api = "0.100.8+1.20.6"
+deps.fabric-loader-min = "0.15.6"
+
+[fabric."1.21"]
+deps.minecraft = "1.21"
+deps.fabric-api = "0.102.0+1.21"
+deps.fabric-loader-min = "0.15.11"
+
+[fabric."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.fabric-api = "0.116.15+1.21.1"
+deps.fabric-loader-min = "0.15.11"
+
+[fabric."1.21.2"]
+deps.minecraft = "1.21.2"
+deps.fabric-api = "0.106.1+1.21.2"
+deps.fabric-loader-min = "0.16.7"
+
+[fabric."1.21.3"]
+deps.minecraft = "1.21.3"
+deps.fabric-api = "0.114.1+1.21.3"
+deps.fabric-loader-min = "0.16.8"
+
+[fabric."1.21.4"]
+deps.minecraft = "1.21.4"
+deps.fabric-api = "0.119.4+1.21.4"
+deps.fabric-loader-min = "0.16.9"
+
+[fabric."1.21.5"]
+deps.minecraft = "1.21.5"
+deps.fabric-api = "0.128.2+1.21.5"
+deps.fabric-loader-min = "0.16.10"
+
+[fabric."1.21.6"]
+deps.minecraft = "1.21.6"
+deps.fabric-api = "0.128.2+1.21.6"
+deps.fabric-loader-min = "0.16.13"
+
+[fabric."1.21.7"]
+deps.minecraft = "1.21.7"
+deps.fabric-api = "0.129.0+1.21.7"
+deps.fabric-loader-min = "0.16.13"
+
+[fabric."1.21.8"]
+deps.minecraft = "1.21.8"
+deps.fabric-api = "0.136.1+1.21.8"
+deps.fabric-loader-min = "0.16.13"
+
+[fabric."1.21.9"]
+deps.minecraft = "1.21.9"
+deps.fabric-api = "0.134.1+1.21.9"
+deps.fabric-loader-min = "0.17.0"
+
+[fabric."1.21.10"]
+deps.minecraft = "1.21.10"
+deps.fabric-api = "0.138.4+1.21.10"
+deps.fabric-loader-min = "0.17.0"
+
+[fabric."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.fabric-api = "0.141.6+1.21.11"
+deps.fabric-loader-min = "0.17.3"
+
+# Semver here, not Maven — see the forge."26.1.2" note above.
+[fabric."26.1.2"]
+deps.minecraft = "26.1.2"
+deps.minecraft-range = ">=26.1 <=26.1.2"
+deps.fabric-api = "0.155.2+26.1.2"
+deps.fabric-loader-min = "0.18.4"
+
+[fabric."26.2"]
+deps.minecraft = "26.2"
+deps.fabric-api = "0.155.2+26.2"
+deps.fabric-loader-min = "0.18.4"

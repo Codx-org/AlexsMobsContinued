@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:trident",
+    { "id": "#c:tools/spear", "required": false },
+    { "id": "#c:tools/spears", "required": false },
+    { "id": "#forge:tools/spear", "required": false },
+    { "id": "#forge:tools/spears", "required": false }
+  ]
+}

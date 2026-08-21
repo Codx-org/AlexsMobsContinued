@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.alexthe666.alexsmobs.mixin",
+  "compatibilityLevel": "${java}",
+  "mixins": [
+    "BlockPropertiesMixin",
+    "EntityMixin",
+    "ItemPropertiesMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "client.ClientLevelMixin",
+    "client.GuiMixin",
+    "client.GuiRendererMixin",
+    "client.HumanoidModelMixin",
+    "client.ItemBlockRenderTypesMixin",
+    "client.LevelRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
