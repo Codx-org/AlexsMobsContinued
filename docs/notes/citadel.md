@@ -81,7 +81,9 @@ not applied. They are reported at ERROR level, so any boot-gate grep on `/ERROR]
 into `mixins` — see "Fletching Table writes the `mixins` array" in [`mixins.md`](mixins.md).)
 
 **Licence — checked, no blocker.** Citadel is **LGPL-3.0-only**
-(github.com/Alex-the-666/Citadel); Alex's Mobs is **GPL-3.0-only**. LGPL-3 code may be
-incorporated into a GPL-3 work, so vendoring is fine as long as Citadel's copyright/licence
-notice ships with the vendored files and this repo stays GPL-3 with sources public.
+(github.com/AlexModGuy/Citadel); Alex's Mobs is **LGPL-3.0** too — upstream declares
+`license="GNU LESSER GENERAL PUBLIC LICENSE"` in its `mods.toml` and ships no licence file at
+all (checked against the live upstream repo, 2026-08-21). Same licence either side, so
+vendoring is fine as long as Citadel's copyright/licence notice ships with the vendored files
+and this repo stays LGPL-3 with sources public.
 

@@ -25,5 +25,6 @@ Modifications made to the bundled code:
   chrome);
 - the five mixins Alex's Mobs relies on rewritten into `com.github.alexthe666.alexsmobs.mixin`.
 
-Alex's Mobs itself is GPL-3.0-only; incorporating LGPL-3.0 code into a GPL-3.0 work is
-expressly permitted by section 2(b)/3 of the LGPL. Sources for this mod remain public.
+Alex's Mobs itself is LGPL-3.0 (declared as "GNU LESSER GENERAL PUBLIC LICENSE" in upstream's
+mod manifest), so the bundled Citadel code is under the same licence as the mod carrying it.
+Sources for this mod remain public.
