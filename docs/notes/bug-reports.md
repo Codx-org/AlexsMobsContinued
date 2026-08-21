@@ -5613,3 +5613,37 @@ local must be a third mod applying at priority < 999, and the log names it.
 cheap discriminator for a mixin-apply failure is the **priority of the failing mixin against the
 priority of every mixin touching the same class** — if the failing one applies first, no later mixin
 can be the cause, and that is a one-line check in two JSON files. Do it before reading any bytecode.
+
+---
+
+### #112
+
+**NeoForge 1.21.7 and up: a full-screen "Warning while loading mods" page in front of every
+player, on every startup.** 7 of 49 nodes (neoforge `1.21.7`, `1.21.8`, `1.21.9`, `1.21.10`,
+`1.21.11`, `26.1.2`, `26.2`). Not reported by a player — found while reading NeoForge's own
+loading path.
+
+NeoForge 21.7 **dropped the runtime member-stripping behaviour of `@OnlyIn`** and added
+`OnlyInWarningsHandler`, which interposes a warning screen naming every mod that still carries the
+annotation. Swept in the cached universal jars: absent through `21.6.20-beta`, present in
+`21.7.25-beta` and every build after it. Upstream Alex's Mobs annotates **138 client members**
+this way, so this mod is on that list for every NeoForge player at 1.21.7 or later.
+
+Fixed by a Stonecutter rule, `!nf2107-onlyin` at `stonecutter.gradle.kts:1210`, which prefixes the
+annotation with `//` on exactly the warning's own node set. Every one of the 138 sites is alone on
+its line — in both of the tree's two spellings, `@OnlyIn(Dist.CLIENT)` and
+`@OnlyIn(value = Dist.CLIENT)` — so commenting the annotation comments the whole line and nothing
+else. The now-unused imports stay behind as a javac warning, not an error.
+
+⚠️ **Removing the annotation is a behaviour no-op on exactly the versions that warn**, which is why
+the gate is the warning's own boundary and no wider: the warning text itself says the stripping
+"is no longer present". Below 1.21.7 the annotation is kept, because there the stripping is real.
+
+⚠️ **Generalisation: a loader can start warning about a construct it used to honour, and the
+warning is a player-facing screen rather than a log line.** Nothing fails — the mod loads, the
+annotation is simply inert — so no compiler, verifier, gate or build sees it; the only symptom is
+in front of the player, on a node nobody on the dev side runs. The tell is a loader changelog
+entry that *removes* a behaviour your source still relies on. Fabric is the mirror-image case and
+is handled the opposite way, by the `!fab-onlyin-*` rules at `stonecutter.gradle.kts:105`, which
+translate the annotation to `@Environment` rather than dropping it — Fabric has no
+`RuntimeDistCleaner`-style backstop, so there the stripping matters more, not less.
