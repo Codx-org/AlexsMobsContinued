@@ -631,3 +631,66 @@ uploader's per-node lines do not appear until it exits; read live progress from 
 Moving 147 jars into `/tmp` filled the 32G tmpfs to 100%, after which **every** Bash call failed
 with `ENOSPC` on its own stdout — including `df`. The recovery is an output-silenced `mv` of the
 trash directory onto real disk. Use `/home/niels/.cache/amc-trash/` for all build trash.
+
+---
+
+## `2.1.6` (2026-08-21) — 49/49 on both stores, and the first clean post-upload diff in seven releases
+
+Contents: the thirty-third pass (**#109** the Forge spawn-packet crash, **#110** the sombrero's
+`young` transform, **#111** the Sea Life catfish-bucket collision), **#112** (the NeoForge ≥1.21.7
+`@OnlyIn` warning screen) and the `/amc` ↔ `/aac` command-name swap.
+
+### ⚠️ The push form has changed
+
+This repo is now the fresh orphan-root `Codx-org/AlexsMobsContinued`, and the local branch is
+**`main`** tracking `origin/main`. Every earlier release record here says `git push origin
+master:main`; that no longer applies. It is a bare `git push origin main`. Commit `805f600`, pushed
+**before** the uploads as always.
+
+### Build and verifiers
+
+One 49-task invocation, `--max-workers=4`, **`MOD_IS_RELEASE=true`** — `BUILD SUCCESSFUL in 14m 40s`,
+`GRADLE_EXIT=0`, 147 jars (49 × main+sources+javadoc), **zero `-SNAPSHOT`, zero non-`2.1.6`**.
+Rule 9 did **not** apply: `build-logic/` and the migration passes were unchanged, so
+`build/resources` was correctly left in place.
+
+All four verifiers on their **predicted** numbers:
+
+| verifier | result |
+|---|---|
+| `verify_mixins.py` | `jars=49 problems=0` |
+| `verify_mixin_targets.py` | **`nodes=49 jars=49 selectors=1108 problems=0 skipped=0`** |
+| `verify_assets.py` | `literals=394 missing=0` |
+| `verify_convention_tags.py` | `nodes=17 problems=9` (the by-design `#c:item/tools/spear(s)` optionals) |
+
+`selectors=1108` unchanged from `2.1.5` is the independent proof the pass added no mixin — #112 is a
+`replacements.string` rule and #109/#110/#111 are all plain source.
+
+### Pilots on `1.21.11-fabric`
+
+Modrinth `WndIyGl0`. The fresh single-version GET proved all five things that one call is for: the
+file attached (`alexsmobs-2.1.6-fabric+1.21.11.jar`, 27,678,134 bytes), `loaders: ["fabric"]`,
+`game_versions: ["1.21.11"]`, Fabric API pinned to `6qAuTtLR` + CodxLib (`6oyMM4yX`) project-level,
+and the changelog body's first line `# 2.1.6`. CurseForge file `8698461`.
+
+Both batches then ran `uploaded=48 skipped=1 failed=0` (the skip is the pilot).
+
+### ✅ The post-upload diff was clean — first time in seven releases
+
+49 rows, 1220 project versions, split 17 fabric / 16 forge / 16 neoforge, **zero suspect rows**, no
+dependency-count mismatches, no duplicate file rows. The repair ladder went unused.
+
+**Run it anyway.** Six of the seven releases before this one hid genuinely damaged versions behind
+`failed=0`, and there is nothing in a clean run that predicts the next one.
+
+CurseForge ledger: **833** entries = 17 × 49, with **49 unique file ids** for `2.1.6`.
+
+### Rig note: both stores in parallel
+
+The two uploaders are independent (different APIs, different ledgers), so the Modrinth batch and the
+CurseForge batch were run **concurrently**, each `nohup`'d to its own log — roughly halving the
+wall-clock of a two-store release. Poll each with its own `pgrep -f <script>.py`, not a bare
+`pgrep python3`; **a concurrent Claude session was releasing the sibling AlexsCavesContinued repo at
+the same time** and its `curseforge_upload.py` is indistinguishable in `ps`. The authoritative check
+that no other session touched this project is **this repo's own ledger** (`scripts/.cf_uploaded.json`
+— entry count and mtime), never a process listing.
