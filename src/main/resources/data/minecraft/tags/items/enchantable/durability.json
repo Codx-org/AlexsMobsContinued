@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    "alexsmobs:moose_headgear",
+    "alexsmobs:frontier_cap",
+    "alexsmobs:sombrero",
+    "alexsmobs:spiked_turtle_shell",
+    "alexsmobs:fedora",
+    "alexsmobs:froststalker_helmet",
+    "alexsmobs:novelty_hat",
+    "alexsmobs:crocodile_chestplate",
+    "alexsmobs:rocky_chestplate",
+    "alexsmobs:unsettling_kimono",
+    "alexsmobs:centipede_leggings",
+    "alexsmobs:emu_leggings",
+    "alexsmobs:roadrunner_boots",
+    "alexsmobs:flying_fish_boots",
+    "alexsmobs:tarantula_hawk_elytra",
+    "alexsmobs:shield_of_the_deep",
+    "alexsmobs:blood_sprayer",
+    "alexsmobs:pocket_sand",
+    "alexsmobs:hemolymph_blaster",
+    "alexsmobs:straddleboard",
+    "alexsmobs:echolocator",
+    "alexsmobs:endolocator",
+    "alexsmobs:pupfish_locator",
+    "alexsmobs:dimensional_carver",
+    "alexsmobs:shattered_dimensional_carver",
+    "alexsmobs:squid_grapple",
+    "alexsmobs:stink_ray"
+  ]
+}

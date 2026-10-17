@@ -1,0 +1,66 @@
+package com.github.alexthe666.alexsmobs.client.particle;
+
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.WaterDropParticle;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+public class ParticleWhaleSplash  extends WaterDropParticle {
+
+    private ParticleWhaleSplash(ClientLevel p_i232433_1_, double p_i232433_2_, double p_i232433_4_, double p_i232433_6_, double p_i232433_8_, double p_i232433_10_, double p_i232433_12_) {
+        // 1.21.9 folded TextureSheetParticle into SingleQuadParticle, so every constructor in the
+        // chain now takes the sprite; null is safe here because the factory calls pickSprite right
+        // after. (WaterDropParticle has always ignored the velocity triple — it sets its own.)
+        //? if >=1.21.9 {
+        /*super(p_i232433_1_, p_i232433_2_, p_i232433_4_, p_i232433_6_, null);
+        *///?} else {
+        super(p_i232433_1_, p_i232433_2_, p_i232433_4_, p_i232433_6_);
+        //?}
+        this.gravity = 0.04F;
+        this.yd = 1D;
+        this.lifetime = (int)(16.0D / (Math.random() * 0.4D + 0.1D));
+        this.quadSize = 0.2F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
+
+    }
+
+    // WaterDropParticle inherited pickSprite from TextureSheetParticle, which 1.21.9 deleted. It has
+    // to live here rather than at the call site: setSprite is protected, and the nested Factory is
+    // not a subclass, so only a method on this class can reach it.
+    //? if >=1.21.9 {
+    /*public void pickSprite(SpriteSet sprites) {
+        this.setSprite(sprites.get(this.random));
+    }
+    *///?}
+
+    public void tick() {
+        super.tick();
+        if(this.yd < 0D){
+            if(Math.abs(this.xd) < 0.23){
+                this.xd *= 1.2D;
+            }
+            if(Math.abs(this.zd) < 0.23){
+                this.zd *= 1.2D;
+            }
+        }
+    }
+
+        @OnlyIn(Dist.CLIENT)
+    public static class Factory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public Factory(SpriteSet p_i50679_1_) {
+            this.spriteSet = p_i50679_1_;
+        }
+
+        public Particle createParticle(SimpleParticleType p_199234_1_, ClientLevel p_199234_2_, double p_199234_3_, double p_199234_5_, double p_199234_7_, double p_199234_9_, double p_199234_11_, double p_199234_13_) {
+            ParticleWhaleSplash lvt_15_1_ = new ParticleWhaleSplash(p_199234_2_, p_199234_3_, p_199234_5_, p_199234_7_, p_199234_9_, p_199234_11_, p_199234_13_);
+            lvt_15_1_.pickSprite(this.spriteSet);
+            return lvt_15_1_;
+        }
+    }
+
+}

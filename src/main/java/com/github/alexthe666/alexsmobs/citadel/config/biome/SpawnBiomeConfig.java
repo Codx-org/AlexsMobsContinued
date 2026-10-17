@@ -1,0 +1,77 @@
+package com.github.alexthe666.alexsmobs.citadel.config.biome;
+
+import com.github.alexthe666.alexsmobs.misc.AMCompat;
+
+import com.github.alexthe666.alexsmobs.citadel.Citadel;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.minecraft.resources.ResourceLocation;
+// Fabric has no FML; FabricLoader exposes the same directory.
+//? if fabric {
+/*
+*///?} else {
+import net.minecraftforge.fml.loading.FMLPaths;
+//?}
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Deprecated(since = "2.6.2")
+public class SpawnBiomeConfig {
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(SpawnBiomeData.class, new SpawnBiomeData.Deserializer()).create();
+    private final ResourceLocation fileName;
+
+    private SpawnBiomeConfig(ResourceLocation fileName) {
+        if (!fileName.getNamespace().endsWith(".json")) {
+            this.fileName = AMCompat.rl(fileName.getNamespace(), fileName.getPath() + ".json");
+        } else {
+            this.fileName = fileName;
+        }
+
+    }
+
+    public static SpawnBiomeData create(ResourceLocation fileName, SpawnBiomeData dataDefault) {
+        SpawnBiomeConfig config = new SpawnBiomeConfig(fileName);
+        SpawnBiomeData data = config.getConfigData(dataDefault);
+        return data;
+    }
+
+    public static <T> T getOrCreateConfigFile(File configDir, String configName, T defaults, Type type) {
+        File configFile = new File(configDir, configName);
+        if (!configFile.exists()) {
+            try {
+                FileUtils.write(configFile, GSON.toJson(defaults));
+            } catch (IOException e) {
+                Citadel.LOGGER.error("Spawn Biome Config: Could not write " + configFile, e);
+            }
+        }
+        try {
+            return GSON.fromJson(FileUtils.readFileToString(configFile), type);
+        } catch (Exception e) {
+            Citadel.LOGGER.error("Spawn Biome Config: Could not load " + configFile, e);
+        }
+
+        return defaults;
+    }
+
+    private File getConfigDirFile() {
+        //? if fabric {
+        /*Path configPath = net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir();
+        *///?} else {
+        Path configPath = FMLPaths.CONFIGDIR.get();
+        //?}
+        Path jsonPath = Paths.get(configPath.toAbsolutePath().toString(), fileName.getNamespace());
+        return jsonPath.toFile();
+    }
+
+    private SpawnBiomeData getConfigData(SpawnBiomeData defaultConfigData) {
+        SpawnBiomeData configData = getOrCreateConfigFile(getConfigDirFile(), fileName.getPath(), defaultConfigData, new TypeToken<SpawnBiomeData>() {
+        }.getType());
+        return configData;
+    }
+}
