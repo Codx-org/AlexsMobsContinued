@@ -81,7 +81,10 @@ public class OctopusColorRegistry {
      * package is excluded from the compile below 1.21.2, and this file is not.
      */
     private static int pixelABGR(TextureAtlasSprite image, int x, int y) {
-        //? if !fabric {
+        //? if neoforge && >=26.3 {
+        /*// The current sprite accessor returns ARGB; the averaging code expects ABGR.
+        return net.minecraft.util.ARGB.toABGR(image.getPixelARGB(0, x, y));
+        *///?} elif !fabric {
         return image.getPixelRGBA(0, x, y);
         //?} elif >=1.21.2 {
         /*int argb = image.contents().originalImage.getPixel(x, y);
