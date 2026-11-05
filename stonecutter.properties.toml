@@ -216,7 +216,7 @@ deps.forge = "65.1.0"
 
 [neoforge."26.3"]
 deps.minecraft = "26.3"
-deps.neoforge = "26.3.0.1-beta"
+deps.neoforge = "26.3.0.101"
 
 [neoforge."26.2"]
 deps.minecraft = "26.2"

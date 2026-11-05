@@ -21,7 +21,8 @@ platform {
 			forgeLikeVersionRange = declaredMcRange(fabricLike = false)
 		}
 		required("neoforge") {
-			forgeLikeVersionRange.set("[1,)")
+			// The 26.3 sprite accessor is compiled against the tested modern loader API.
+			forgeLikeVersionRange.set(if (prop("deps.minecraft") == "26.3") "[26.3.0.101,)" else "[1,)")
 		}
 		required("codxlib") {
 			// The settings framework (api.settings) landed in 1.4.0; anything older has no
