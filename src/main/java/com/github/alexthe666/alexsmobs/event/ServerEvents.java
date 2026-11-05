@@ -125,6 +125,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 // Import-only — nothing in this file is annotated @Mod, and Fabric has no such annotation.
 //? if !fabric
 import net.minecraftforge.fml.common.Mod;
+//? if !neoforge || <26.3
 import net.minecraftforge.items.ItemHandlerHelper;
 // antlr4 left the Minecraft classpath in 1.20.5; commons-lang3 has an equivalent 3-tuple.
 import org.apache.commons.lang3.tuple.Triple;
@@ -312,6 +313,16 @@ public class ServerEvents {
     }
     *///?}
 
+    private static void giveStartingItem(Player player, ItemStack stack) {
+        // NeoForge 26.3 removed the legacy items package. Vanilla handles insertion,
+        // inventory synchronization and dropping any remainder when no slot is free.
+        //? if neoforge && >=26.3 {
+        /*player.getInventory().placeItemBackInInventory(stack, net.minecraft.util.Prediction.SERVER_ONLY);
+        *///?} else {
+        ItemHandlerHelper.giveItemToPlayer(player, stack);
+        //?}
+    }
+
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (AMConfig.giveBookOnStartup) {
@@ -327,13 +338,13 @@ public class ServerEvents {
             // literal value on Fabric — one spelling for all three, see AMCompat.
             CompoundTag data = AMCompat.getCompound(playerData, AMCompat.PERSISTED_NBT_TAG);
             if (data != null && !AMCompat.getBoolean(data, "alexsmobs_has_book")) {
-                ItemHandlerHelper.giveItemToPlayer(event.getEntity(), new ItemStack(AMItemRegistry.ANIMAL_DICTIONARY.get()));
+                giveStartingItem(event.getEntity(), new ItemStack(AMItemRegistry.ANIMAL_DICTIONARY.get()));
                 final boolean isAlex = Objects.equals(event.getEntity().getUUID(), ALEX_UUID);
                 if (isAlex || Objects.equals(event.getEntity().getUUID(), CARRO_UUID)) {
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), new ItemStack(AMItemRegistry.BEAR_DUST.get()));
+                    giveStartingItem(event.getEntity(), new ItemStack(AMItemRegistry.BEAR_DUST.get()));
                 }
                 if (isAlex) {
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), new ItemStack(AMItemRegistry.NOVELTY_HAT.get()));
+                    giveStartingItem(event.getEntity(), new ItemStack(AMItemRegistry.NOVELTY_HAT.get()));
                 }
                 data.putBoolean("alexsmobs_has_book", true);
                 playerData.put(AMCompat.PERSISTED_NBT_TAG, data);
