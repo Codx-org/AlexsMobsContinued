@@ -20,6 +20,14 @@ public class AMMobSpawnBiomeModifier implements BiomeModifier {
     public AMMobSpawnBiomeModifier() {
     }
 
+    // Newer NeoForge 26.3 builds supply registry access to modifiers. Retain the
+    // original overload so the same artifact also supports earlier builds.
+    //? if neoforge && >=26.3 {
+    /*public void modify(net.minecraft.core.RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        modify(biome, phase, builder);
+    }
+    *///?}
+
     public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
         if (phase == Phase.ADD) {
             AMWorldRegistry.addBiomeSpawns(biome, builder);

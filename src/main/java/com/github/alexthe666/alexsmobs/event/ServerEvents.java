@@ -1176,8 +1176,8 @@ public class ServerEvents {
     public void onAddReloadListener(net.neoforged.neoforge.event.AddServerReloadListenersEvent event){
         AlexsMobs.LOGGER.info("Adding datapack listener capsid_recipes");
         // 1.21.4's AddServerReloadListenersEvent#addListener is keyed by a ResourceLocation, and its
-        // getRegistryAccess() is the tag-bound provider the codec needs to resolve item/tag refs.
-        event.addListener(AMCompat.rl("alexsmobs", "capsid_recipes"), AlexsMobs.PROXY.getCapsidRecipeManager(event.getRegistryAccess()));
+        // The reload resources expose the tag-bound lookup, including on newer 26.3 loaders.
+        event.addListener(AMCompat.rl("alexsmobs", "capsid_recipes"), AlexsMobs.PROXY.getCapsidRecipeManager(event.getServerResources().getRegistryLookup()));
     }
     *///?} else {
     @SubscribeEvent
