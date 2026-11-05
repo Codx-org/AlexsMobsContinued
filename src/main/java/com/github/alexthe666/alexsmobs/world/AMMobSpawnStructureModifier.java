@@ -21,7 +21,14 @@ public class AMMobSpawnStructureModifier implements StructureModifier {
     public AMMobSpawnStructureModifier() {
     }
 
-    @Override
+    // Newer NeoForge 26.3 builds supply registry access to modifiers. Retain the
+    // original overload so the same artifact also supports earlier builds.
+    //? if neoforge && >=26.3 {
+    /*public void modify(net.minecraft.core.RegistryAccess registries, Holder<Structure> structure, Phase phase, ModifiableStructureInfo.StructureInfo.Builder builder) {
+        modify(structure, phase, builder);
+    }
+    *///?}
+
     public void modify(Holder<Structure> structure, Phase phase, ModifiableStructureInfo.StructureInfo.Builder builder) {
         if (phase == StructureModifier.Phase.ADD) {
             AMWorldRegistry.modifyStructure(structure, builder);
